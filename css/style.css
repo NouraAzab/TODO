@@ -1,0 +1,61 @@
+
+
+:root{
+    --main-color:rgb(90, 83, 189);
+}
+body{
+    background-color: var(--main-color);
+    font-family: "Exo", sans-serif;
+}
+.submit-form-btn{
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    padding:  10px 15px;
+}
+.todo-input.form-control:focus{
+    box-shadow: 0 0 0 .25rem rgba(90, 83, 189, 0.568) ;
+    border: none;
+
+}
+.TODO li .task-name{
+    /* background-color: red; */
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+.TODO li .task-name::after{
+    content: "make it completed :)";
+    position: absolute;
+    background-color: black;
+    color: white;
+    top:100%;
+    left: 0;
+    font-size: 8px;
+    padding: 5px;
+    border-radius: 5px;
+    text-wrap:nowrap ;
+
+    /* cancel the effect of [cursor: pointer;] of its parent [.task-name]*/
+    pointer-events: none;
+    transition: opacity .3s;
+    display: none;
+
+} 
+.TODO li .task-name:hover:after{
+    display: block;
+
+}
+.TODO li .trash-icon-wrapper{
+    background-color: var(--main-color);
+    padding: 10px;
+    cursor: pointer;
+
+}
+
+
+
+
+
+
+
