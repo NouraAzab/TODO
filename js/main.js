@@ -114,10 +114,10 @@ function displayAllTODOs() {
         cartona += `
 
         <li class="d-flex justify-content-between align-items-center border-bottom pb-2 my-2">
-                <span onclick="markCompleted('${todoElement._id}');" class="task-name ${todoElement.completed? `completed`: ``}" style="${todoElement.completed ? `text-decoration: line-through;` : ``}">${todoElement.title}</span>
+                <span onclick="markCompleted('${todoElement._id}');" class="task-name ${todoElement.completed ? `completed` : ``}" style="${todoElement.completed ? `text-decoration: line-through;` : ``}">${todoElement.title}</span>
                 <div class="d-flex align-items-center gap-4 ">
                     <span><i class="fa-solid fa-circle-check ${todoElement.completed ? `d-block` : `d-none`}" style="color: #63E6BE;"></i></span>
-                    <span class="trash-icon-wrapper rounded"><i class="fa-solid fa-trash text-white "></i></span>
+                    <span onclick="deleteTODO('${todoElement._id}')" class="trash-icon-wrapper rounded"><i class="fa-solid fa-trash text-white "></i></span>
                 </div>
             </li>
         
@@ -136,31 +136,57 @@ async function markCompleted(todoID) {
         todoId: todoID
     }
     const obj = {
-            method:"put", // put : for update
-            body:JSON.stringify(todoData),
-            headers:{
-                "content-type":"application/json"
-            }
+        method: "put", // put : for update
+        body: JSON.stringify(todoData),
+        headers: {
+            "content-type": "application/json"
         }
+    }
 
 
 
     const response = await fetch("https://todos.routemisr.com/api/v1/todos", obj);
     // console.log(response);
-    if(response.ok){
+    if (response.ok) {
         const data = await response.json();
         // console.log(data);
-        if(data.message === "success"){// in backend ->the todo become {... , completed = true , ...}
+        if (data.message === "success") {// in backend ->the todo become {... , completed = true , ...}
             //will not call displayAllTODOs() ...because it use allTODOs array which is empty after loading ^^
             //so will use getAllTODOs.. contain displayAllTODOs and update the array with the data from the API ^^
-
-           console.log( document.querySelector(".TODO li .task-name:hover:after"));
             getAllTODOs();
-        
+
 
         }
     }
-    
+
 
 }
+// ====================================
+
+async function deleteTODO(id) {
+
+
+
+    const todoData = {
+        todoId: id
+    };
+    const obj = {
+        method: "delete",
+        body: JSON.stringify(todoData),
+        headers: {
+            "content-type": "application/json"
+        }
+    };
+
+    const response = await fetch("https://todos.routemisr.com/api/v1/todos", obj);
+    if(response.ok){
+        const data = await response.json();
+        if(data.message === "success"){
+            getAllTODOs();
+        }
+    }
+
+
+}
+// ====================================
 
