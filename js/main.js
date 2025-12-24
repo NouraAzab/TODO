@@ -46,7 +46,7 @@ formElement.addEventListener('submit', (e) => { //submit = enter | press button[
 // =========================================================================
 async function addTODO() {
 
-
+    showLoader();
 
     const obj = {
         title: inputElement.value,
@@ -84,6 +84,7 @@ async function addTODO() {
         }
 
     }
+    hideLoader(); // if succeeded | failed [the server is send the response] 
 
 }
 
@@ -91,6 +92,7 @@ async function addTODO() {
 // ====================================
 async function getAllTODOs() {
 
+    showLoader();
     const response = await fetch(`https://todos.routemisr.com/api/v1/todos/${apiKey}`,
         {
             // method:'get'  // it's by default ^^
@@ -107,6 +109,7 @@ async function getAllTODOs() {
 
         }
     }
+    hideLoader();
 
 
 
@@ -121,7 +124,7 @@ function displayAllTODOs() {
         cartona += `
 
         <li class="d-flex justify-content-between align-items-center border-bottom pb-2 my-2">
-                <span ${todoElement.completed ? `` :`onclick="markCompleted('${todoElement._id}');"` } class="task-name ${todoElement.completed ? `completed` : ``}" style="${todoElement.completed ? `text-decoration: line-through;` : ``}">${todoElement.title}</span>
+                <span ${todoElement.completed ? `` : `onclick="markCompleted('${todoElement._id}');"`} class="task-name ${todoElement.completed ? `completed` : ``}" style="${todoElement.completed ? `text-decoration: line-through;` : ``}">${todoElement.title}</span>
                 <div class="d-flex align-items-center gap-4 ">
                     <span><i class="fa-solid fa-circle-check ${todoElement.completed ? `d-block` : `d-none`}" style="color: #63E6BE;"></i></span>
                     <span onclick="deleteTODO('${todoElement._id}')" class="trash-icon-wrapper rounded"><i class="fa-solid fa-trash text-white "></i></span>
@@ -149,6 +152,7 @@ async function markCompleted(todoID) {
         confirmButtonText: "Yes, make it complete!"
     }).then(async (result) => {
         if (result.isConfirmed) {
+            showLoader();
 
             const todoData = {
                 todoId: todoID
@@ -181,15 +185,14 @@ async function markCompleted(todoID) {
                 }
             }
 
+            hideLoader();
         }
     });
-
 
 }
 // ====================================
 
 async function deleteTODO(id) {
-
 
     Swal.fire({
         title: "Are you sure?",
@@ -202,7 +205,9 @@ async function deleteTODO(id) {
         confirmButtonText: "Yes, delete it!"
     }).then(async (result) => {
         if (result.isConfirmed) {
-
+            
+            showLoader();
+            
             //begin the logic of delete after conforming first :)
             const todoData = {
                 todoId: id
@@ -228,6 +233,7 @@ async function deleteTODO(id) {
             }
 
 
+            hideLoader();
 
         }
     });
@@ -240,6 +246,14 @@ async function deleteTODO(id) {
 
 
 
-
 }
 // ====================================
+
+function showLoader() {
+    document.querySelector(".loading").classList.remove("d-none");
+
+}
+function hideLoader() {
+    document.querySelector(".loading").classList.add("d-none");
+
+}
