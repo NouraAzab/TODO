@@ -147,7 +147,33 @@ body{
 
 }
 
+/* ==================================================================== */
+.progressContainer{
+    background: radial-gradient( #fff , rgb(162, 166, 226));
+}
+.progressContainer .progressBarOuter{
+
+    background-color: rgb(162, 166, 226);
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
 
 
+}
+#progressBarinner{
+    background-color: var(--main-color);
+    height: inherit;
+    width: 50%;
+}
+    
+.progressPercentage{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    color: white;
+    font-size: 13px;
+    
+}
 
 

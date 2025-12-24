@@ -105,6 +105,7 @@ async function getAllTODOs() {
             // console.log(data);
             allTODOs = data.todos;//[{} , {} , {} ,....]
             console.log(allTODOs);
+            changeProgressBar();
             displayAllTODOs();
 
         }
@@ -205,9 +206,9 @@ async function deleteTODO(id) {
         confirmButtonText: "Yes, delete it!"
     }).then(async (result) => {
         if (result.isConfirmed) {
-            
+
             showLoader();
-            
+
             //begin the logic of delete after conforming first :)
             const todoData = {
                 todoId: id
@@ -255,5 +256,18 @@ function showLoader() {
 }
 function hideLoader() {
     document.querySelector(".loading").classList.add("d-none");
+
+}
+// =====================================
+function changeProgressBar() {
+
+    const completedTODOsCount = allTODOs.filter((todo) => todo.completed).length;
+    const allTODOsCount = allTODOs.length;
+
+    document.getElementById("progressBarinner").style.width = `${(completedTODOsCount / allTODOsCount * 100)}%`;// the value in backtic due to %  => it's string :)
+
+    const spans = document.querySelectorAll(".progressPercentage span");//[span01 , span02]
+    spans[0].innerHTML = completedTODOsCount;
+    spans[1].innerHTML = allTODOsCount;
 
 }
