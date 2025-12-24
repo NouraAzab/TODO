@@ -54,6 +54,11 @@ body{
 }
 
 
+/* will cancel the after element when i add [completed] class to the task ^^ */
+.TODO li .task-name.completed::after,
+.TODO li .task-name.completed:hover::after {
+    display: none;
+}
 
 
 
