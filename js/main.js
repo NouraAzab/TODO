@@ -31,10 +31,12 @@
 const formElement = document.querySelector("form");
 const inputElement = document.querySelector("input");
 const apiKey = "6949582f600ccb137ffe54be";
-let allTODOs;
+let allTODOs ;
+getAllTODOs();//contains displayAllTODOs()  else
+
 
 // =========================================================================
-formElement.addEventListener('submit', (e) => {
+formElement.addEventListener('submit', (e) => { //submit = enter | press button[type="submit"]
     e.preventDefault();
     // console.log("hi");
     // console.log(inputElement.value);
@@ -68,6 +70,7 @@ async function addTODO() {
 
         if (data.message === "success") {
 
+            //getAllTODOs : [displayAllTODOs]
             await getAllTODOs(); //it's asyn   => so i need await to avoid to make the reset of the form done before it finish
             // console.log(data);//{message : "success"}
             formElement.reset();//will not reset untill [allTODOs return]
@@ -79,19 +82,18 @@ async function addTODO() {
 
 
 // ====================================
-async function getAllTODOs(){
+async function getAllTODOs() {
 
-    const response = await fetch(`https://todos.routemisr.com/api/v1/todos/${apiKey}` , 
+    const response = await fetch(`https://todos.routemisr.com/api/v1/todos/${apiKey}`,
         {
             // method:'get'  // it's by default ^^
         }
     );
 
-    if(response.ok){
-        const  data = await response.json();
-        if(data.message === "success"){
+    if (response.ok) {
+        const data = await response.json();
+        if (data.message === "success") {
             // console.log(data);
-
             allTODOs = data.todos;//[{} , {} , {} ,....]
             console.log(allTODOs);
             displayAllTODOs();
@@ -103,4 +105,28 @@ async function getAllTODOs(){
 
 }
 // getAllTODOs();
+// ====================================
+function displayAllTODOs() {
+    let cartona = ``;
+
+
+    for (const todoElement of allTODOs) {
+        cartona += `
+
+        <li class="d-flex justify-content-between align-items-center border-bottom pb-2 my-2">
+                <span class="task-name" style="${todoElement.completed ? `text-decoration: line-through;`: ``}">${todoElement.title}</span>
+                <div class="d-flex align-items-center gap-4 ">
+                    <span><i class="fa-solid fa-circle-check ${todoElement.completed? `d-block` : `d-none`  }" style="color: #63E6BE;"></i></span>
+                    <span class="trash-icon-wrapper rounded"><i class="fa-solid fa-trash text-white "></i></span>
+                </div>
+            </li>
+        
+        `;
+
+
+    }
+    document.getElementById("rowData").innerHTML = cartona;
+   
+}
+// ====================================
 
